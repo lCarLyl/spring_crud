@@ -1,20 +1,34 @@
 package me.carly.crud.service;
 
+import lombok.RequiredArgsConstructor;
 import me.carly.crud.model.User;
+import me.carly.crud.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface UserService {
+@Service
+@RequiredArgsConstructor
+public class UserService {
 
 
-    void addUser(User user);
+    @Autowired
+    private final UserRepository userRepository;
 
-    void removeUser(Long id);
+    public User findByID(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 
-    void updateUser(User user);
+    public void deleteByID(Long id) {
+        userRepository.deleteById(id);
+    }
 
-    User getUserByID(Long id);
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
 
-    List<User> getUsers();
-
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 }

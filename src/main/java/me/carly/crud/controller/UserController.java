@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
@@ -23,7 +22,7 @@ public class UserController {
 
     @GetMapping("/list")
     public String getUsers(Model model) {
-        model.addAttribute("users", userService.getUsers());
+        model.addAttribute("users", userService.findAll());
 
         return "list";
     }
@@ -37,28 +36,28 @@ public class UserController {
 
     @PostMapping("/create")
     public String createUser(User user) {
-        userService.addUser(user);
+        userService.saveUser(user);
 
         return REDIRECT;
     }
 
     @GetMapping("/delete/{id}")
     public String removeUser(@PathVariable("id") Long id) {
-        userService.removeUser(id);
+        userService.deleteByID(id);
 
         return REDIRECT;
     }
 
     @GetMapping("/update/{id}")
     public String updateUser(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUserByID(id));
+        model.addAttribute("user", userService.findByID(id));
 
         return "update";
     }
 
     @PostMapping("/update")
     public String postUpdateUser(User user) {
-        userService.updateUser(user);
+        userService.saveUser(user);
 
         return REDIRECT;
     }
